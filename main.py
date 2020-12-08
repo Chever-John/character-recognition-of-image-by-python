@@ -1,16 +1,21 @@
-# This is a sample Python script.
+import os
+import pytesseract
+import re
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+from PIL import Image
 
 
-# Press the green button in the gutter to run the script.
+def OCR(image):
+    # 输入的是图片的地址，返回的是从图片中读取到的学号信息。
+    pytesseract.pytesseract.tesseract_cmd = 'C://Program Files (x86)//Tesseract-OCR//tesseract.exe'
+    code = pytesseract.image_to_string(image, lang="chi_sim+eng")
+    ret = re.findall(r'(\d+)', code)
+    res = max(ret, key=len, default='')
+    return res
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    images = Image.open('pic/IMG_004.jpg')
+    rename_file = "%s.jpg" % OCR(images)
+    os.rename("pic/IMG_004.jpg", "pic/" + rename_file)
+    print(OCR(images))
