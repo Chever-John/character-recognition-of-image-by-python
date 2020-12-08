@@ -64,3 +64,5 @@
 *.3dm
 *.max
 
+# data.txt
+*.txt

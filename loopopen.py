@@ -6,7 +6,7 @@ from PIL import Image
 
 
 def OCR(image):
-    pytesseract.pytesseract.tesseract_cmd = 'C://Program Files (x86)//Tesseract-OCR//tesseract.exe'
+    pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files (x86)/Tesseract-OCR/tesseract.exe'
     code = pytesseract.image_to_string(image, lang="chi_sim+eng")
     ret = re.findall(r'(\d+)', code)
     res = max(ret, key=len, default='')
@@ -14,7 +14,16 @@ def OCR(image):
 
 
 if __name__ == '__main__':
-    image = Image.open('pic/IMG_001.jpg')
+    file_path = 'pic'
+    files = os.listdir(file_path)
+    for file in files:
+        imageWaitForOpening = file
+        image = Image.open('pic/%s' % imageWaitForOpening)
+        print(OCR(image))
+
+
+    # image = Image.open('pic/IMG_003.jpg')
     # rename_file = "%s.jpg" % OCR(image)
     # os.rename("pic/IMG_001.jpg", rename_file)
-    print(OCR(image))
+    # print(OCR(image))
+    # print(files)
